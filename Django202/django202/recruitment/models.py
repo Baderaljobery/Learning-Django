@@ -3,6 +3,12 @@ from django.db import models
 # Create your models here.
 from django.db import models
 
+APPLICATION_STATUS = [
+        ("screening", "Screening"),
+        ("interview", "Interview"),
+        ("rejected", "Rejected"),
+        ("hired", "Hired"),
+    ]
 
 class Organization(models.Model):
     name = models.CharField(max_length=255)
@@ -31,11 +37,20 @@ class JobPosting(models.Model):
 
 
 class Candidate(models.Model):
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
 
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20)
+
+    priority_score = models.IntegerField(default=50)
+
+    application_status = models.CharField(
+        max_length=20,
+        choices=APPLICATION_STATUS,
+        default="screening"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
